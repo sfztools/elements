@@ -34,7 +34,7 @@ namespace cycfi { namespace elements
 
    inline basic_toggle_button<> check_box(std::string text)
    {
-      return basic_toggle_button(
+      return basic_toggle_button<>(
          check_box_element<false>{ text }
        , check_box_element<true>{ text }
       );

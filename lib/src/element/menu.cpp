@@ -295,7 +295,9 @@ namespace cycfi { namespace elements
                      return false;
                   }
 
-                  auto [c, cctx] = find_composite(ctx);
+                  composite_base* c;
+                  const context* cctx;
+                  std::tie(c, cctx) = find_composite(ctx);
                   if (c)
                   {
                      bool const down = k.key == key_code::down;
@@ -352,7 +354,9 @@ namespace cycfi { namespace elements
       bool hit = ctx.bounds.includes(p);
       if (status == cursor_tracking::leaving || hit)
       {
-         auto [c, cctx] = find_composite(ctx);
+         composite_base* c;
+         const context* cctx;
+         std::tie(c, cctx) = find_composite(ctx);
          if (c)
          {
             for (std::size_t i = 0; i != c->size(); ++i)

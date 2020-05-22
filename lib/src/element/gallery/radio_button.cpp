@@ -73,7 +73,9 @@ namespace cycfi { namespace elements
       auto r = basic_latching_button<>::click(ctx, btn);
       if (!was_selected && value())
       {
-         auto [c, cctx] = find_composite(ctx);
+         composite_base* c;
+         const context* cctx;
+         std::tie(c, cctx) = find_composite(ctx);
          if (c)
          {
             for (std::size_t i = 0; i != c->size(); ++i)

@@ -16,7 +16,8 @@ namespace cycfi { namespace elements
       auto  tmb_limits = thumb().limits(ctx);
 
       // We multiply thumb min limits by 2 so that there is always some space to move it.
-      if (_is_horiz = limits_.max.x > limits_.max.y; _is_horiz)
+      _is_horiz = limits_.max.x > limits_.max.y;
+      if (_is_horiz)
       {
          limits_.min.y = std::max<float>(limits_.min.y, tmb_limits.min.y);
          limits_.max.y = std::max<float>(limits_.max.y, tmb_limits.max.y);

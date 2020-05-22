@@ -9,7 +9,7 @@
 #include <elements/element/element.hpp>
 #include <type_traits>
 
-namespace cycfi::elements
+namespace cycfi { namespace elements
 {
    ////////////////////////////////////////////////////////////////////////////
    // Progress Bar
@@ -55,11 +55,11 @@ namespace cycfi::elements
    {
    public:
 
-      static_assert(std::is_base_of_v<element, Background>,
+      static_assert(std::is_base_of<element, Background>::value,
          "basic_progress_bar_base Background type needs to be or inherit from element");
-      static_assert(std::is_base_of_v<element, Foreground>,
+      static_assert(std::is_base_of<element, Foreground>::value,
          "basic_progress_bar_base Foreground type needs to be or inherit from element");
-      static_assert(std::is_base_of_v<basic_progress_bar_base, Base>,
+      static_assert(std::is_base_of<basic_progress_bar_base, Base>::value,
          "basic_progress_bar_base Base type needs to be or inherit from basic_progress_bar_base");
 
       using background_type = std::decay_t<Background>;
@@ -98,6 +98,7 @@ namespace cycfi::elements
          init_value
       };
    }
+}
 }
 
 #endif

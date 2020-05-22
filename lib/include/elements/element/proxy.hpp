@@ -63,7 +63,7 @@ namespace cycfi { namespace elements
    {
    public:
 
-      static_assert(std::is_base_of_v<proxy_base, Base>,
+      static_assert(std::is_base_of<proxy_base, Base>::value,
          "proxy Base type needs to be or inherit from proxy_base");
       using subject_type = typename std::decay<Subject>::type;
 

@@ -9,7 +9,7 @@
 #include <elements/view.hpp>
 #include <algorithm>
 
-namespace cycfi::elements
+namespace cycfi { namespace elements
 {
    view_limits progress_bar_base::limits(basic_context const& ctx) const
    {
@@ -83,4 +83,5 @@ namespace cycfi::elements
 
       return bounds;
    }
+}
 }

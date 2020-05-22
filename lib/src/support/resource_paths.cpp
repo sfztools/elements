@@ -5,19 +5,20 @@
 =============================================================================*/
 #include <elements/support/resource_paths.hpp>
 #include <infra/filesystem.hpp>
+#include <infra/string_view.hpp>
 #include <string>
 
 namespace cycfi { namespace elements
 {
    std::vector<fs::path> resource_paths;
 
-   std::string find_file(std::string_view file)
+   std::string find_file(string_view file)
    {
       std::string full_path;
       if (fs::path(file.data()).is_absolute())
       {
          if (fs::exists(full_path))
-            full_path = file;
+            full_path = std::string(file);
       }
       else
       {

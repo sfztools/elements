@@ -11,7 +11,7 @@
 #include <elements/element/element.hpp>
 #include <boost/asio.hpp>
 
-#include <string_view>
+#include <infra/string_view.hpp>
 #include <string>
 #include <vector>
 
@@ -34,7 +34,7 @@ namespace cycfi { namespace elements
    public:
 
       virtual                    ~text_writer() = default;
-      virtual void               set_text(std::string_view text) = 0;
+      virtual void               set_text(string_view text) = 0;
    };
 
    ////////////////////////////////////////////////////////////////////////////
@@ -61,10 +61,10 @@ namespace cycfi { namespace elements
       void                    draw(context const& ctx) override;
 
       std::string const&      get_text() const override            { return _text; }
-      void                    set_text(std::string_view text) override;
+      void                    set_text(string_view text) override;
 
       std::string const&      value() const override           { return _text; }
-      void                    value(std::string_view val) override;
+      void                    value(string_view val) override;
 
    private:
 
@@ -104,7 +104,7 @@ namespace cycfi { namespace elements
       bool                    wants_control() const override;
 
       bool                    text(context const& ctx, text_info info) override;
-      void                    set_text(std::string_view text) override;
+      void                    set_text(string_view text) override;
 
       using element::focus;
       using static_text_box::get_text;
@@ -166,8 +166,8 @@ namespace cycfi { namespace elements
 
       using basic_text_box::get_text;
 
-      using text_function = std::function<std::string(std::string_view text)>;
-      using enter_function = std::function<bool(std::string_view text)>;
+      using text_function = std::function<std::string(string_view text)>;
+      using enter_function = std::function<bool(string_view text)>;
 
                               basic_input_box(
                                  std::string placeholder = ""

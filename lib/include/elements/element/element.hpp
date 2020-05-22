@@ -10,8 +10,8 @@
 #include <elements/element/receiver.hpp>
 #include <elements/support/rect.hpp>
 
+#include <infra/string_view.hpp>
 #include <memory>
-#include <string_view>
 #include <type_traits>
 
 namespace cycfi { namespace elements

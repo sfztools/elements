@@ -159,7 +159,7 @@ target_sources(elements
 
 target_include_directories(elements PUBLIC include)
 
-target_compile_features(elements PUBLIC cxx_std_17)
+target_compile_features(elements PUBLIC cxx_std_14)
 target_link_libraries(elements PUBLIC cycfi::infra cycfi::json)
 
 if(ELEMENTS_ENABLE_LTO)

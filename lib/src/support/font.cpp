@@ -77,8 +77,8 @@ namespace cycfi { namespace elements
             ~cleanup()
             {
                std::lock_guard<std::mutex> lock(cairo_font_map_mutex_);
-               for (auto [key, scaled_font] : cairo_font_map_)
-                  cairo_font_face_destroy(scaled_font);
+               for (auto& key_and_scaled_font : cairo_font_map_)
+                  cairo_font_face_destroy(key_and_scaled_font.second);
                cairo_font_map_.clear();
             }
          };
@@ -196,7 +196,8 @@ namespace cycfi { namespace elements
                std::string key = (const char*) family;
                trim(key);
 
-               if (auto it = font_map().find(key); it != font_map().end())
+               auto it = font_map().find(key);
+               if (it != font_map().end())
                {
                   it->second.push_back(entry);
                }
@@ -221,7 +222,8 @@ namespace cycfi { namespace elements
          while (getline(str, family, ','))
          {
             trim(family);
-            if (auto i = font_map().find(family); i != font_map().end())
+            auto i = font_map().find(family);
+            if (i != font_map().end())
             {
                int min = 10000;
                std::vector<font_entry>::const_iterator best_match = i->second.end();
@@ -282,9 +284,11 @@ namespace cycfi { namespace elements
       auto match_ptr = match(descr);
       if (match_ptr)
       {
-         auto [cairo_font_map, cairo_font_map_mutex] = get_cairo_font_map();
-         std::lock_guard<std::mutex> lock(cairo_font_map_mutex);
-         if (auto it = cairo_font_map.find(match_ptr->full_name); it != cairo_font_map.end())
+         auto cairo_font_map_with_mutex = get_cairo_font_map();
+         std::lock_guard<std::mutex> lock(cairo_font_map_with_mutex.second);
+         cairo_font_map_type& cairo_font_map = cairo_font_map_with_mutex.first;
+         auto it = cairo_font_map.find(match_ptr->full_name);
+         if (it != cairo_font_map.end())
          {
             _handle = cairo_font_face_reference(it->second);
          }
