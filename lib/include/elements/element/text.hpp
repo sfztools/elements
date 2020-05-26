@@ -9,7 +9,6 @@
 #include <elements/support/glyphs.hpp>
 #include <elements/support/theme.hpp>
 #include <elements/element/element.hpp>
-#include <boost/asio.hpp>
 
 #include <infra/string_view.hpp>
 #include <string>
