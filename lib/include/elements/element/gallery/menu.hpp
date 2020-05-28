@@ -145,7 +145,7 @@ namespace cycfi { namespace elements
 #if __cplusplus >= 201703L
             return std::size(_seq);
 #else
-            return seq.size();
+            return _seq.size();
 #endif
          }
 
