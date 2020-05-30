@@ -65,9 +65,9 @@ namespace cycfi { namespace elements
 
       static_assert(std::is_base_of<proxy_base, Base>::value,
          "proxy Base type needs to be or inherit from proxy_base");
-      static_assert(!std::is_reference_v<Subject>,
+      static_assert(!std::is_reference<Subject>::value,
          "Subject must not be a reference type - maybe you want to use reference class instead");
-      static_assert(!std::is_const_v<Subject>, "Subject must not be const");
+      static_assert(!std::is_const<Subject>::value, "Subject must not be const");
 
                               template <typename... T>
                               proxy(Subject subject_, T&&... args)

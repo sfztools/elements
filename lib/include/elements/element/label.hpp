@@ -45,7 +45,7 @@ namespace cycfi { namespace elements
                               {}
 
       text_type               get_text() const override          { return _text; }
-      void                    set_text(string_view text) override { _text = text; }
+      void                    set_text(string_view text) override { _text = std::string(text); }
 
    private:
 
