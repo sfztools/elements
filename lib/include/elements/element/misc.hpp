@@ -12,6 +12,7 @@
 #include <elements/support/theme.hpp>
 #include <elements/support/font.hpp>
 #include <infra/support.hpp>
+
 #include <functional>
 #include <utility>
 

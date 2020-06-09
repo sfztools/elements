@@ -68,7 +68,9 @@ namespace cycfi { namespace elements
 
       struct hit_info
       {
-         elements::element*   element  = nullptr;
+         using weak_ptr = std::weak_ptr<elements::element>;
+
+         weak_ptr             element;
          rect                 bounds   = rect{};
          int                  index    = -1;
       };
@@ -161,49 +163,6 @@ namespace cycfi { namespace elements
    inline element& range_composite<Base>::at(std::size_t ix) const
    {
       return _container.at(_first + ix);
-   }
-
-   ////////////////////////////////////////////////////////////////////////////
-   // find_composite utility finds the innermost composite given a context.
-   // If successful, returns a pointer to the composite base and pointer
-   // to its context.
-   ////////////////////////////////////////////////////////////////////////////
-   std::pair<composite_base*, context const*>
-   inline find_composite(context const& ctx)
-   {
-      element* this_ = ctx.element;
-      std::pair<composite_base*, context const*> result = { nullptr, nullptr };
-      auto p = ctx.parent;
-      while (p)
-      {
-         auto&& find =
-            [&](context const& ctx, element* e) -> bool
-            {
-               auto c = dynamic_cast<composite_base*>(e);
-               if (c && c != this_)
-               {
-                  result.first = c;
-                  result.second = &ctx;
-                  return true;
-               }
-               return false;
-            };
-
-         auto e = p->element;
-         if (find(*p, e))
-            return result;
-
-         proxy_base* proxy = dynamic_cast<proxy_base*>(e);
-         while (proxy)
-         {
-            auto* subject = &proxy->subject();
-            if (find(*p, subject))
-               return result;
-            proxy = dynamic_cast<proxy_base*>(subject);
-         }
-         p = p->parent;
-      }
-      return result;
    }
 }}
 
