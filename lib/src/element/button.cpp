@@ -166,7 +166,9 @@ namespace cycfi { namespace elements
    {
       if (!was_selected && val)
       {
-         auto [c, cctx] = find_composite(ctx);
+         composite_base* c;
+         const context* cctx;
+         std::tie(c, cctx) = find_composite(ctx);
          if (c)
          {
             for (std::size_t i = 0; i != c->size(); ++i)

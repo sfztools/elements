@@ -264,7 +264,8 @@ namespace cycfi { namespace elements
       if (!empty())
       {
          hit_info info = hit_element(ctx, p);
-         if (auto ptr = info.element.lock(); ptr && elements::intersects(info.bounds, view_bounds(ctx.view)))
+         auto ptr = info.element.lock();
+         if (ptr && elements::intersects(info.bounds, view_bounds(ctx.view)))
          {
             context ectx{ ctx, ptr.get(), info.bounds };
             return ptr->scroll(ectx, dir, p);

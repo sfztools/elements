@@ -75,7 +75,8 @@ namespace cycfi { namespace elements
          auto&& find =
             [&](context const& ctx, element* e) -> bool
             {
-               if (auto c = dynamic_cast<composite_base*>(e); c && c != this_)
+               auto c = dynamic_cast<composite_base*>(e);
+               if (c && c != this_)
                {
                   result.first = c;
                   result.second = &ctx;
