@@ -54,7 +54,7 @@ namespace cycfi { namespace elements
    view_limits vport_element::limits(basic_context const& ctx) const
    {
       view_limits e_limits = subject().limits(ctx);
-      return {{e_limits.min.x, min_port_size }, e_limits.max };
+      return view_limits{ point(e_limits.min.x, min_port_size), e_limits.max };
    }
 
    void vport_element::prepare_subject(context& ctx)
