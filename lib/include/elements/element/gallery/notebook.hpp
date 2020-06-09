@@ -39,7 +39,7 @@ namespace cycfi { namespace elements
                });
          }
 
-         if constexpr(sizeof...(RestTabs) > 0)
+         if (sizeof...(RestTabs) > 0)
             link_tabs(view_, pages_, index+1, rest...);
       }
 
