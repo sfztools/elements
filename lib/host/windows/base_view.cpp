@@ -384,7 +384,7 @@ namespace cycfi { namespace elements
             case WM_MBUTTONDOWN:
             case WM_RBUTTONDOWN:
                SetFocus(hwnd);
-               [[fallthrough]];
+               // fall through
 
             case WM_LBUTTONUP: case WM_MBUTTONUP: case WM_RBUTTONUP:
                // $$$ JDG $$$ todo: prevent double btn up and down
