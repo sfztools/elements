@@ -21,6 +21,11 @@ namespace cycfi { namespace elements
 {
    namespace detail
    {
+      template <typename Pages>
+      void link_tabs(view&, Pages, std::size_t)
+      {
+      }
+
       template <typename Pages, typename Tab, typename... RestTabs>
       void link_tabs(view& view_, Pages pages_, std::size_t index, Tab tab_, RestTabs... rest)
       {
@@ -39,8 +44,7 @@ namespace cycfi { namespace elements
                });
          }
 
-         if (sizeof...(RestTabs) > 0)
-            link_tabs(view_, pages_, index+1, rest...);
+         link_tabs(view_, pages_, index+1, rest...);
       }
 
       template <typename Pages, typename... Tabs>
