@@ -43,9 +43,22 @@ auto make_vslider(int index)
 
 auto make_vsliders()
 {
+   auto btn = button("Abcdef");
+   //
+   auto cbtn = vcollapsible(btn);
+   cbtn.is_collapsed = []() { return true; };
+   //
    return hmin_size(250,
       right_margin(10, htile(
-         make_vslider(0),
+         vtile(
+            label("Volume"),
+#if 0
+            btn,
+#else
+            cbtn,
+#endif
+            make_vslider(0),
+            label("100%")),
          make_vslider(1),
          make_vslider(2)
       ))
