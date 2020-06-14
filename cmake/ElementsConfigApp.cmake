@@ -15,7 +15,9 @@ option(UBSAN "Build with undefined Behavior sanitizer" OFF)
 
 macro(add_sanitizer flag)
    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=${flag} -fno-omit-frame-pointer")
+   set(DCMAKE_C_FLAGS "${DCMAKE_C_FLAGS} -fsanitize=${flag} -fno-omit-frame-pointer")
    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=${flag}")
+   set(DCMAKE_MODULE_LINKER_FLAGS "${DCMAKE_MODULE_LINKER_FLAGS} -fsanitize=${flag}")
 endmacro()
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -40,20 +42,20 @@ endif()
 # Sources (and Resources)
 
 if (NOT DEFINED ELEMENTS_ICON_FONT)
-   set(ELEMENTS_ICON_FONT ${CMAKE_CURRENT_LIST_DIR}/resources/fonts/elements_basic.ttf)
+   set(ELEMENTS_ICON_FONT ${ELEMENTS_ROOT}/resources/fonts/elements_basic.ttf)
 endif()
 
 set(ELEMENTS_RESOURCES
    ${ELEMENTS_ICON_FONT}
-   ${CMAKE_CURRENT_LIST_DIR}/resources/fonts/OpenSans-Light.ttf
-   ${CMAKE_CURRENT_LIST_DIR}/resources/fonts/OpenSans-Regular.ttf
-   ${CMAKE_CURRENT_LIST_DIR}/resources/fonts/OpenSans-SemiBold.ttf
-   ${CMAKE_CURRENT_LIST_DIR}/resources/fonts/OpenSans-Bold.ttf
-   ${CMAKE_CURRENT_LIST_DIR}/resources/fonts/OpenSansCondensed-Light.ttf
-   ${CMAKE_CURRENT_LIST_DIR}/resources/fonts/Roboto-Light.ttf
-   ${CMAKE_CURRENT_LIST_DIR}/resources/fonts/Roboto-Regular.ttf
-   ${CMAKE_CURRENT_LIST_DIR}/resources/fonts/Roboto-Medium.ttf
-   ${CMAKE_CURRENT_LIST_DIR}/resources/fonts/Roboto-Bold.ttf
+   ${ELEMENTS_ROOT}/resources/fonts/OpenSans-Light.ttf
+   ${ELEMENTS_ROOT}/resources/fonts/OpenSans-Regular.ttf
+   ${ELEMENTS_ROOT}/resources/fonts/OpenSans-SemiBold.ttf
+   ${ELEMENTS_ROOT}/resources/fonts/OpenSans-Bold.ttf
+   ${ELEMENTS_ROOT}/resources/fonts/OpenSansCondensed-Light.ttf
+   ${ELEMENTS_ROOT}/resources/fonts/Roboto-Light.ttf
+   ${ELEMENTS_ROOT}/resources/fonts/Roboto-Regular.ttf
+   ${ELEMENTS_ROOT}/resources/fonts/Roboto-Medium.ttf
+   ${ELEMENTS_ROOT}/resources/fonts/Roboto-Bold.ttf
 )
 
 if (UNIX AND NOT APPLE)
@@ -105,7 +107,7 @@ elseif (UNIX AND NOT APPLE)
    )
 
    configure_file(
-      ${CMAKE_CURRENT_LIST_DIR}/resources/config.json.in
+      ${ELEMENTS_ROOT}/resources/config.json.in
       "${CMAKE_CURRENT_BINARY_DIR}/config.json"
    )
 elseif (WIN32)
@@ -123,17 +125,17 @@ elseif (WIN32)
       )
 
       if (CMAKE_SIZEOF_VOID_P EQUAL 8) # 64 bits?
-         set(CAIRO_DLL ${CMAKE_CURRENT_LIST_DIR}/lib/external/cairo/lib/x64/cairo.dll)
-         set(FREETYPE_DLL ${CMAKE_CURRENT_LIST_DIR}/lib/external/freetype/win64/freetype.dll)
-         set(FONTCONFIG_DLL ${CMAKE_CURRENT_LIST_DIR}/lib/external/fontconfig/x64/fontconfig.dll)
-         set(ICONV_DLL ${CMAKE_CURRENT_LIST_DIR}/lib/external/fontconfig/x64/libiconv.dll)
-         set(XML2 ${CMAKE_CURRENT_LIST_DIR}/lib/external/fontconfig/x64/libxml2.dll)
+         set(CAIRO_DLL ${ELEMENTS_ROOT}/lib/external/cairo/lib/x64/cairo.dll)
+         set(FREETYPE_DLL ${ELEMENTS_ROOT}/lib/external/freetype/win64/freetype.dll)
+         set(FONTCONFIG_DLL ${ELEMENTS_ROOT}/lib/external/fontconfig/x64/fontconfig.dll)
+         set(ICONV_DLL ${ELEMENTS_ROOT}/lib/external/fontconfig/x64/libiconv.dll)
+         set(XML2 ${ELEMENTS_ROOT}/lib/external/fontconfig/x64/libxml2.dll)
       else()
-         set(CAIRO_DLL ${CMAKE_CURRENT_LIST_DIR}/lib/external/cairo/lib/x86/cairo.dll)
-         set(FREETYPE_DLL ${CMAKE_CURRENT_LIST_DIR}/lib/external/freetype/win32/freetype.dll)
-         set(FONTCONFIG_DLL ${CMAKE_CURRENT_LIST_DIR}/lib/external/fontconfig/x86/fontconfig.dll)
-         set(ICONV_DLL ${CMAKE_CURRENT_LIST_DIR}/lib/external/fontconfig/x86/libiconv.dll)
-         set(XML2 ${CMAKE_CURRENT_LIST_DIR}/lib/external/fontconfig/x86/libxml2.dll)
+         set(CAIRO_DLL ${ELEMENTS_ROOT}/lib/external/cairo/lib/x86/cairo.dll)
+         set(FREETYPE_DLL ${ELEMENTS_ROOT}/lib/external/freetype/win32/freetype.dll)
+         set(FONTCONFIG_DLL ${ELEMENTS_ROOT}/lib/external/fontconfig/x86/fontconfig.dll)
+         set(ICONV_DLL ${ELEMENTS_ROOT}/lib/external/fontconfig/x86/libiconv.dll)
+         set(XML2 ${ELEMENTS_ROOT}/lib/external/fontconfig/x86/libxml2.dll)
       endif()
 
       file(COPY ${CAIRO_DLL} DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
@@ -150,7 +152,7 @@ elseif (WIN32)
    endif()
 
    configure_file(
-      ${CMAKE_CURRENT_LIST_DIR}/resources/config.json.in
+      ${ELEMENTS_ROOT}/resources/config.json.in
       "${CMAKE_CURRENT_BINARY_DIR}/config.json"
    )
 endif()
@@ -202,7 +204,7 @@ if (APPLE)
    set_target_properties(
       ${ELEMENTS_APP_PROJECT}
       PROPERTIES
-      MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_LIST_DIR}/resources/macos/plist.in
+      MACOSX_BUNDLE_INFO_PLIST ${ELEMENTS_ROOT}/resources/macos/plist.in
    )
 endif()
 

@@ -100,6 +100,9 @@ namespace cycfi { namespace elements
 
    void basic_menu::drag(context const& ctx, mouse_button btn)
    {
+      if (!_popup)
+         return;
+
       rect  bounds = _popup->bounds();
       if (bounds.includes(btn.pos))
       {
