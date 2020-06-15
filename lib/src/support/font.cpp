@@ -254,7 +254,7 @@ namespace cycfi { namespace elements
                if (FcPatternGetInteger(_pattern, object, 0, &x) == FcResultMatch)
                   return x;
                else
-                  return std::nullopt;
+                  return nullopt;
             }
 
             FcPattern* _pattern = nullptr;
@@ -268,7 +268,9 @@ namespace cycfi { namespace elements
             template <typename... Args>
             object_set(Args&&... args)
             {
-               static_assert((std::is_same_v<std::decay_t<Args>, char const*> && ...));
+#if __cplusplus >= 201703L
+               static_assert((std::is_same<std::decay_t<Args>, char const*>::value && ...));
+#endif
                _set = FcObjectSetBuild(std::forward<Args>(args)..., nullptr);
             }
 
@@ -401,20 +403,23 @@ namespace cycfi { namespace elements
          , full_name(reinterpret_cast<char const*>(full_name))
          , file(reinterpret_cast<char const*>(file))
          {
-            if (auto w = pattern.get_weight(); w)
+            { auto w = pattern.get_weight(); if (w)
                weight = map_fc_weight(*w); // map the weight (normalized 0 to 100)
             else
                weight = font_constants::weight_normal;
+            }
 
-            if (auto s = pattern.get_slant(); s)
+            { auto s = pattern.get_slant(); if (s)
                slant = (*s * 100) / 110; // normalize 0 to 100
             else
                slant = font_constants::slant_normal;
+            }
 
-            if (auto w = pattern.get_width(); w)
+            { auto w = pattern.get_width(); if (w)
                stretch = (*w * 100) / 200; // normalize 0 to 100
             else
                stretch = font_constants::stretch_normal;
+            }
          }
 
          fc::pattern pattern;
@@ -548,7 +553,9 @@ namespace cycfi { namespace elements
             return _face;
          }
 
+#if __cplusplus >= 201703L
          [[nodiscard]]
+#endif
          FT_Face release()
          {
             return std::exchange(_face, nullptr);
@@ -616,7 +623,9 @@ namespace cycfi { namespace elements
                return free_type_face(nullptr);
          }
 
+#if __cplusplus >= 201703L
          [[nodiscard]]
+#endif
          cairo_font_face_t* load_font(char const* font_path)
          {
             free_type_face ft_face = load_face(font_path);
