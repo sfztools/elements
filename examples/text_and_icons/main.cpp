@@ -98,7 +98,7 @@ auto make_basic_text()
    // This is an example on how to add an on_text callback:
    auto in = input_box("Show me the money");
    in.second->on_text =
-      [input = in.second.get()](std::string_view text)
+      [input = in.second.get()](cycfi::string_view text)
       {
          if (text == "$1000000")
          {

@@ -16,7 +16,7 @@ auto background = box(bkd_color);
 auto make_selection_menu()
 {
    return selection_menu(
-      [](std::string_view select)
+      [](cycfi::string_view select)
       {
          // This will be called when an item is selected
       },
