@@ -12,16 +12,19 @@
    view::view(extent size_)
     : base_view(size_)
     , _main_element(make_scaled_content())
+    , _work(_io)
    {}
 
    view::view(host_view_handle h)
     : base_view(h)
     , _main_element(make_scaled_content())
+    , _work(_io)
    {}
 
    view::view(window& win)
     : base_view(win.host())
     , _main_element(make_scaled_content())
+    , _work(_io)
    {
       on_change_limits = [&win](view_limits limits_)
       {
@@ -32,6 +35,7 @@
 
    view::~view()
    {
+      _io.stop();
    }
 
    bool view::set_limits()

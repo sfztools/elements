@@ -59,10 +59,6 @@ set(ELEMENTS_RESOURCES
 )
 
 if (UNIX AND NOT APPLE)
-   set(
-      ELEMENTS_APP_RESOURCES
-      ${ELEMENTS_APP_RESOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/resources/config.json
-   )
    file(
       COPY ${ELEMENTS_RESOURCES} ${ELEMENTS_APP_RESOURCES}
       DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/resources"
@@ -105,11 +101,6 @@ elseif (UNIX AND NOT APPLE)
       ${ELEMENTS_RESOURCES}
       ${ELEMENTS_APP_RESOURCES}
    )
-
-   configure_file(
-      ${ELEMENTS_ROOT}/resources/config.json.in
-      "${CMAKE_CURRENT_BINARY_DIR}/config.json"
-   )
 elseif (WIN32)
    add_executable(
       ${ELEMENTS_APP_PROJECT}
@@ -150,11 +141,6 @@ elseif (WIN32)
          VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
       )
    endif()
-
-   configure_file(
-      ${ELEMENTS_ROOT}/resources/config.json.in
-      "${CMAKE_CURRENT_BINARY_DIR}/config.json"
-   )
 endif()
 
 target_compile_options(${ELEMENTS_APP_PROJECT} PRIVATE

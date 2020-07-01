@@ -39,7 +39,6 @@ set(ELEMENTS_SOURCES
    src/support/draw_utils.cpp
    src/support/font.cpp
    src/support/glyphs.cpp
-   src/support/io_context.cpp
    src/support/pixmap.cpp
    src/support/rect.cpp
    src/support/resource_paths.cpp
@@ -105,7 +104,6 @@ set(ELEMENTS_HEADERS
    include/elements/support/font.hpp
    include/elements/support/glyphs.hpp
    include/elements/support/icon_ids.hpp
-   include/elements/support/io_context.hpp
    include/elements/support/pixmap.hpp
    include/elements/support/point.hpp
    include/elements/support/receiver.hpp
@@ -159,7 +157,6 @@ source_group("Header Files\\elements"
 )
 
 add_subdirectory(infra)
-add_subdirectory(json)
 add_library(elements)
 
 target_sources(elements
@@ -168,9 +165,8 @@ target_sources(elements
 )
 
 target_include_directories(elements PUBLIC include)
-
+target_link_libraries(elements PUBLIC cycfi::infra)
 target_compile_features(elements PUBLIC cxx_std_14)
-target_link_libraries(elements PUBLIC cycfi::infra cycfi::json)
 
 if(ELEMENTS_ENABLE_LTO)
    set_target_properties(elements PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
@@ -247,9 +243,8 @@ if (ELEMENTS_HOST_UI_LIBRARY STREQUAL "gtk")
 endif()
 
 ###############################################################################
-# Boost headers
-find_package(Boost 1.68 REQUIRED)
-target_include_directories(elements PUBLIC "${Boost_INCLUDE_DIRS}")
+# Asio headers
+target_include_directories(elements PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/external/asio/asio/include)
 
 ###############################################################################
 # Global options
@@ -299,9 +294,14 @@ if (UNIX OR (WIN32 AND NOT MSVC))
    target_link_libraries(elements PUBLIC Threads::Threads)
 endif()
 
-# Boost ASIO requires this
+# ASIO requires this
 if (WIN32 AND NOT MSVC)
    target_link_libraries(elements PUBLIC ws2_32)
+endif()
+
+# Replace missing Shcore library removed by WIN32_LEAN_AND_MEAN
+if (WIN32) 
+   target_link_libraries(elements PUBLIC Shcore)
 endif()
 
 add_library(cycfi::elements ALIAS elements)

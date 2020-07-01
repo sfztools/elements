@@ -10,11 +10,11 @@
 #include <elements/support/rect.hpp>
 #include <elements/support/canvas.hpp>
 #include <elements/support/theme.hpp>
-#include <elements/support/io_context.hpp>
 #include <elements/element/element.hpp>
 #include <elements/element/layer.hpp>
 #include <elements/element/size.hpp>
 #include <elements/element/indirect.hpp>
+#include <asio.hpp>
 #include <memory>
 #include <unordered_map>
 #include <chrono>
@@ -91,6 +91,7 @@ namespace cycfi { namespace elements
       using change_limits_function = std::function<void(view_limits limits_)>;
       change_limits_function on_change_limits;
 
+      using io_context = asio::io_context;
       io_context&             io();
 
                               template <typename T, typename F>
@@ -126,6 +127,7 @@ namespace cycfi { namespace elements
       undo_stack_type         _redo_stack;
 
       io_context              _io;
+      io_context::work        _work;
 
       using time_point = std::chrono::steady_clock::time_point;
       element*                _tracking_element = nullptr;
@@ -250,7 +252,7 @@ namespace cycfi { namespace elements
       return _current_limits;
    }
 
-   inline io_context& view::io()
+   inline view::io_context& view::io()
    {
       return _io;
    }
@@ -263,7 +265,15 @@ namespace cycfi { namespace elements
    template <typename T, typename F>
    inline void view::post(T duration, F f)
    {
-      _io.post(duration, std::move(f));
+      auto timer = std::make_shared<asio::steady_timer>(_io);
+      timer->expires_from_now(duration);
+      timer->async_wait(
+         [timer, f](auto const& err)
+         {
+            if (!err)
+               f();
+         }
+      );
    }
 
    template <typename F>

@@ -77,7 +77,10 @@ auto thumb =
          { 25, 20, 25, 18 },
          label("“Dogs are my favorite people”")
       ),
-      rbox(colors::medium_blue, 10)
+      margin(
+         { 5, 5, 5, 5 },
+         rbox(colors::medium_blue, 10)
+      )
    );
 
 auto funny_slider = slider(thumb, track);
@@ -87,7 +90,7 @@ auto funny_slider = slider(thumb, track);
 ///////////////////////////////////////////////////////////////////////////////
 int main(int argc, char* argv[])
 {
-   app _app(argc, argv);
+   app _app(argc, argv, "Aspects", "com.cycfi.aspects");
    window _win(_app.name());
    _win.on_close = [&_app]() { _app.stop(); };
 
